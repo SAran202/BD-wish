@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For You ❤️</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* 🌗 Theme */
+    body.day {
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    }
+
+    body.night {
+      background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
+    }
+
+    /* 🌌 Parallax */
+    #parallax {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .layer {
+      position: absolute;
+      width: 120%;
+      height: 120%;
+    }
+
+    .bg {
+      background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
+    }
+
+    .mid {
+      background: rgba(255, 255, 255, 0.03);
+      filter: blur(40px);
+    }
+
+    .glow {
+      background: radial-gradient(circle, rgba(255, 77, 109, 0.15), transparent 70%);
+      filter: blur(25px);
+    }
+
+    /* 🌠 FX */
+    #bgFx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .fx-heart {
+      position: absolute;
+      bottom: -20px;
+      color: #ff4d6d;
+      animation: floatHeart linear forwards;
+    }
+
+    .fx-star {
+      position: absolute;
+      bottom: -10px;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: floatStar linear forwards, twinkle 1.5s infinite alternate;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    @keyframes floatStar {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    @keyframes twinkle {
+      from {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.4);
+      }
+    }
+
+    /* 💬 Content */
+    .container {
+      position: relative;
+      z-index: 5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #content {
+      max-height: 70vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 10px;
+
+      scrollbar-width: none;
+    }
+
+    #content::-webkit-scrollbar {
+      display: none;
+    }
+
+    h2 {
+      font-size: 20px;
+      background: linear-gradient(90deg, #ff758c, #ff7eb3, #ffd86f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 💓 Pulse */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 220px;
+      height: 220px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255, 77, 109, 0.25), transparent 70%);
+      border-radius: 50%;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(0.9);
+      }
+    }
+
+    /* Buttons */
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      background: #ff4d6d;
+      color: white;
+      cursor: pointer;
+    }
+
+    #restart {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      display: none;
+    }
+
+    #content {
+      pointer-events: auto;
+    }
+
+    .container {
+      pointer-events: none;
+    }
+
+    button {
+      pointer-events: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="parallax">
+    <div class="layer bg"></div>
+    <div class="layer mid"></div>
+    <div class="layer glow"></div>
+  </div>
+
+  <div id="bgFx"></div>
+
+  <div class="container">
+    <div id="start">
+      <h2>Hey Sneha…</h2>
+      <button onclick="start()">Start ❤️</button>
+    </div>
+
+    <div id="content"></div>
+  </div>
+
+  <div id="restart">
+    <button onclick="restart()">🔄 Relive Again</button>
+  </div>
+
+  <audio id="music" src="your-music.mp3"></audio>
+
+  <script>
+
+    /* Theme */
+    const hour = new Date().getHours();
+    document.body.classList.add(hour >= 6 && hour < 18 ? "day" : "night");
+
+    const lines = [
+      `Hey Sneha…`,
+      "Just give me a few seconds ❤️",
+      "I wanted to try.",
+      "25 years of you being in this world…",
+      "and somehow,",
+      "I got lucky enough to be part of it.",
+      "You make normal days feel special.",
+      "You make me smile without trying.",
+      "And honestly…",
+      "life just feels better with you in it.",
+      "So yeah,",
+      "Happy 25th Birthday ❤️",
+      "I don’t need a hundred reasons.",
+      "You’re my reason.",
+      "And no matter where life takes us…",
+      "I’ll always be there for you.",
+      "I don’t just want moments with you…",
+      "I want a lifetime with you ❤️",
+      "Let me take care of you",
+      "for the rest of our lives ❤️"
+    ];
+
+    let index = 0;
+    let typingTimeout;
+    let nextTimeout;
+    let fxInterval;
+
+    /* Start */
+    function start() {
+      document.getElementById("start").style.display = "none";
+      document.getElementById("music").play();
+      spawnFX();
+      showLine();
+    }
+
+    /* Append lines */
+    function showLine() {
+      if (index >= lines.length) {
+        document.getElementById("restart").style.display = "block";
+        return;
+      }
+
+      const content = document.getElementById("content");
+      const el = document.createElement("h2");
+      content.appendChild(el);
+
+      type(el, lines[index], 0);
+      index++;
+    }
+
+    /* Typing */
+    function type(el, text, i) {
+      if (i < text.length) {
+        el.innerHTML += text[i];
+        scrollBottom();
+
+        typingTimeout = setTimeout(() => type(el, text, i + 1), 35);
+      } else {
+        nextTimeout = setTimeout(showLine, 1200);
+      }
+    }
+
+    /* Scroll */
+    function scrollBottom() {
+      const c = document.getElementById("content");
+      c.scrollTo({ top: c.scrollHeight, behavior: "smooth" });
+    }
+
+    /* Restart */
+    function restart() {
+
+      // 🛑 Stop ALL running timers
+      clearTimeout(typingTimeout);
+      clearTimeout(nextTimeout);
+      clearInterval(fxInterval);
+
+      // 🔁 Reset state
+      index = 0;
+
+      // 🧹 Clear UI
+      const content = document.getElementById("content");
+      content.innerHTML = "";
+      content.scrollTop = 0;
+
+      document.getElementById("bgFx").innerHTML = "";
+      document.getElementById("restart").style.display = "none";
+
+      // 🎵 Reset music
+      const music = document.getElementById("music");
+      music.pause();
+      music.currentTime = 0;
+      music.play();
+
+      // 🌠 Restart FX
+      spawnFX();
+
+      // 🚀 Start again clean
+      showLine();
+    }
+
+    /* FX */
+    function spawnFX() {
+      const bg = document.getElementById("bgFx");
+
+      clearInterval(fxInterval); // 💥 important
+
+      fxInterval = setInterval(() => {
+        const el = document.createElement("div");
+        const isHeart = Math.random() > 0.5;
+
+        if (isHeart) {
+          el.className = "fx-heart";
+          el.innerHTML = "❤";
+          el.style.fontSize = (12 + Math.random() * 20) + "px";
+        } else {
+          el.className = "fx-star";
+        }
+
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.animationDuration = (5 + Math.random() * 5) + "s";
+
+        bg.appendChild(el);
+
+        setTimeout(() => el.remove(), 10000);
+      }, 200);
+    }
+
+    /* Parallax */
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+      document.querySelector(".bg").style.transform = `translate(${x * 0.2}px,${y * 0.2}px)`;
+      document.querySelector(".mid").style.transform = `translate(${x * 0.5}px,${y * 0.5}px)`;
+      document.querySelector(".glow").style.transform = `translate(${x}px,${y}px)`;
+    });
+
+  </script>
+
+</body>
+
+</html>
