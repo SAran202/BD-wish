@@ -131,6 +131,8 @@
       align-items: center;
       flex-direction: column;
       text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
     #content {
@@ -212,6 +214,43 @@
     button {
       pointer-events: auto;
     }
+
+    #songSelect {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .song-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .song-list button {
+      background: rgba(255, 77, 109, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 500px) {
+      h2 {
+        font-size: 18px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+
+      .song-list {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
@@ -228,7 +267,18 @@
   <div class="container">
     <div id="start">
       <h2>Hey Sneha…</h2>
-      <button onclick="start()">Start ❤️</button>
+      <button onclick="showSongs()">Start ❤️</button>
+    </div>
+
+    <div id="songSelect" style="display:none;">
+      <h2>Pick a song 🎵</h2>
+
+      <div class="song-list">
+        <button onclick="playSong('song1.mp3')">Oru-Paathi-Kadhavu 💖</button>
+        <button onclick="playSong('song2.mp3')">Pirai-Thedum 🌙</button>
+        <button onclick="playSong('song3.mp3')">Enthara-Enthara ✨</button>
+        <button onclick="playSong('song4.mp3')">Uyire-Un-Uyirena 🌟</button>
+      </div>
     </div>
 
     <div id="content"></div>
@@ -238,7 +288,7 @@
     <button onclick="restart()">🔄 Relive Again</button>
   </div>
 
-  <audio id="music" src="your-music.mp3"></audio>
+  <audio id="music" src=""></audio>
 
   <script>
 
@@ -383,6 +433,23 @@
       document.querySelector(".mid").style.transform = `translate(${x * 0.5}px,${y * 0.5}px)`;
       document.querySelector(".glow").style.transform = `translate(${x}px,${y}px)`;
     });
+
+    function showSongs() {
+      document.getElementById("start").style.display = "none";
+      document.getElementById("songSelect").style.display = "block";
+    }
+
+    function playSong(src) {
+      const music = document.getElementById("music");
+
+      music.src = src;
+      music.play();
+
+      document.getElementById("songSelect").style.display = "none";
+
+      spawnFX();
+      showLine();
+    }
 
   </script>
 
